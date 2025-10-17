@@ -1,21 +1,45 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
-import dotenv from "dotenv"
+import dotenv from "dotenv";
+import __dirname from './utils/index.js';
 
 import usersRouter from './routes/users.router.js';
 import petsRouter from './routes/pets.router.js';
 import adoptionsRouter from './routes/adoption.router.js';
 import sessionsRouter from './routes/sessions.router.js';
 
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsdoc from 'swagger-jsdoc';
+
 dotenv.config();
 
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.1",
+    info: {
+      title: "API AdoptMe - Pets",
+      version: "1.0.0",
+      description: "Documentación de los endpoints"
+    },
+    servers: [
+      {
+        url: "http://localhost:8080",
+      },
+    ],
+  },
+  apis: [__dirname + "/docs/*.yaml"], 
+};
+
+
+const swaggerSpecs = swaggerJsdoc(swaggerOptions);
 const app = express();
 const PORT = process.env.PORT||8080;
 const MONGO_URI = process.env.MONGO_URI;
 
 
 
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 app.use(express.json());
 app.use(cookieParser());
 
