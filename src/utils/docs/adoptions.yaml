@@ -74,23 +74,6 @@ paths:
                 $ref: '#/components/schemas/Adoption'
         "404":
           description: Adopción no encontrada
-    delete:
-      summary: Eliminar una adopción por ID
-      tags:
-        - Adoptions
-      parameters:
-        - in: path
-          name: aid
-          required: true
-          schema:
-            type: string
-          description: ID de la adopción
-      responses:
-        "200":
-          description: Adopción eliminada exitosamente
-        "404":
-          description: Adopción no encontrada
-
 components:
   schemas:
     Adoption:
